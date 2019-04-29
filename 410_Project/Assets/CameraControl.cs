@@ -41,8 +41,7 @@ public class CameraControl : MonoBehaviour
         Vector3 averagePos = new Vector3(); //creates blank vector3
         int numTargets = 0;                 //number of targets we are averaging over
 
-        if (!m_Targets[0].gameObject.activeSelf)    //for each active gameobject...
-            continue;
+        if (m_Targets[0].gameObject.activeSelf){    //for each active gameobject...
 
             averagePos += m_Targets[0].position;
             numTargets++;
