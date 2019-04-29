@@ -5,7 +5,7 @@ public class CameraControl : MonoBehaviour
     public float m_DampTime = 0.2f;         //the approximate time you want the camera take for it to get into position
     public float m_ScreenEdgeBuffer = 4f;   //number that we add to make sure tanks are fully on screen
     public float m_MinSize = 6.5f;          //a minimum size so isn't too zoomed in
-    [HideInInspector] public Transform[] m_Targets;
+    /*[HideInInspector]*/ public Transform[] m_Targets;
 
     private Camera m_Camera;                //instance of camera
     private float m_ZoomSpeed;              //reference to how fast camera is being damped
@@ -36,15 +36,15 @@ public class CameraControl : MonoBehaviour
 
     private void FindAveragePosition()
     {
+        //Rewrite because we only need the camera to follow one character
+
         Vector3 averagePos = new Vector3(); //creates blank vector3
         int numTargets = 0;                 //number of targets we are averaging over
 
-        for (int i = 0; i < m_Targets.Length; i++)  //loops
-        {
-            if (!m_Targets[i].gameObject.activeSelf)    //for each active gameobject...
-                continue;
+        if (!m_Targets[0].gameObject.activeSelf)    //for each active gameobject...
+            continue;
 
-            averagePos += m_Targets[i].position; 
+            averagePos += m_Targets[0].position;
             numTargets++;
         }
 
@@ -54,6 +54,7 @@ public class CameraControl : MonoBehaviour
         averagePos.y = transform.position.y;    //set average position
 
         m_DesiredPosition = averagePos; //returns the average position
+
     }
 
 
