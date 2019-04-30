@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowerMovement : MonoBehaviour
 {
-    private float m_moveSpeed = 15f;
+    private float m_moveSpeed = 25f;
     private float m_turnSpeed = 180f;
     private float m_jumpForce = 300f;
     public AudioSource m_MovementAudio;
@@ -116,7 +116,7 @@ public class FollowerMovement : MonoBehaviour
         m_Rigidbody.AddForce(movement * m_moveSpeed);
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
 
-        if (Input.GetKeyDown("space") && numjumps < 2)
+        if (Input.GetKeyDown("space") && numjumps < 1)
         {
 
             m_isGrounded = false;
@@ -138,9 +138,11 @@ public class FollowerMovement : MonoBehaviour
 
     private void Turn()
     {
-        // Adjust the rotation of the tank based on the player's input.
+        // Adjust the rotation of the character based on the player's input.
         float turn = m_TurnInputValue * m_turnSpeed * Time.deltaTime;
+
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
 

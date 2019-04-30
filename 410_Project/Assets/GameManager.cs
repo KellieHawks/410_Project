@@ -10,16 +10,22 @@ public class GameManager : MonoBehaviour
     public float m_EndDelay = 3f;               // The delay between the end of RoundPlaying and RoundEnding phases.
     public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
     public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
-    public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
-    public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
+    public GameObject m_FollowerPrefab;             // Reference to the prefab the players will control.
+    public CharacterManager[] m_characters;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
 
-    private int m_RoundNumber;                  // Which round the game is currently on.
+    private int m_levelNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
-    private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
-    private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+    private CharacterManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
+    private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
+
+    /*
+    General Notes on Set up: Kellie
+    m_characters[0] - follower
+    m_characters[1] - runner
+    */
 
     private void Start()
     {
@@ -27,7 +33,7 @@ public class GameManager : MonoBehaviour
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
 
-        SpawnAllTanks();
+        SpawnAllCharacters();
         SetCameraTargets();
 
         // Once the tanks have been created and the camera is using them as targets, start the game.
@@ -35,31 +41,26 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void SpawnAllTanks()
+    private void SpawnAllCharacters() //loops through and instantiates the two characters, follower and runner
     {
-        // For all the tanks...
-        for (int i = 0; i < m_Tanks.Length; i++)
+        for (int i = 0; i < m_characters.Length; i++)
         {
             // ... create them, set their player number and references needed for control.
-            m_Tanks[i].m_Instance =
-                Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-            m_Tanks[i].m_PlayerNumber = i + 1;
-            m_Tanks[i].Setup();
+            m_characters[i].m_Instance =
+                Instantiate(m_FollowerPrefab, m_characters[i].m_SpawnPoint.position, m_characters[i].m_SpawnPoint.rotation) as GameObject;
+            m_characters[i].m_PlayerNumber = i + 1;
+            m_characters[i].Setup();
         }
     }
 
 
     private void SetCameraTargets()
     {
-        // Create a collection of transforms the same size as the number of tanks.
-        Transform[] targets = new Transform[m_Tanks.Length];
+        // Create a collection of transforms the same size as the number of characters.
+        Transform[] targets = new Transform[m_characters.Length];
 
-        // For each of these transforms...
-        for (int i = 0; i < targets.Length; i++)
-        {
-            // ... set it to the appropriate tank transform.
-            targets[i] = m_Tanks[i].m_Instance.transform;
-        }
+        // ... set up appropriate transform, only runner set as target
+        targets[0] = m_characters[0].m_Instance.transform;
 
         // These are the targets the camera should follow.
         m_CameraControl.m_Targets = targets;
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
         if (m_GameWinner != null)
         {
             // If there is a game winner, restart the level.
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(0); //We will eventually change this to load the different scenes
         }
         else
         {
@@ -96,42 +97,42 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundStarting()
     {
         // As soon as the round starts reset the tanks and make sure they can't move.
-        ResetAllTanks();
-        DisableTankControl();
+        ResetAllCharacters();
+        DisableCharacterControl();
 
         // Snap the camera's zoom and position to something appropriate for the reset tanks.
         m_CameraControl.SetStartPositionAndSize();
 
         // Increment the round number and display text showing the players what round it is.
-        m_RoundNumber++;
-        m_MessageText.text = "ROUND " + m_RoundNumber;
+        m_levelNumber++;
+        m_MessageText.text = "Level " + m_levelNumber;
 
         // Wait for the specified length of time until yielding control back to the game loop.
         yield return m_StartWait;
     }
 
-
+    //NEED TO CHANGE SO IT TAKES INTO ACCOUNT IF THE CHARACTER HAS BEEN OUTSIDE OF CAMERA
     private IEnumerator RoundPlaying()
     {
         // As soon as the round begins playing let the players control the tanks.
-        EnableTankControl();
+        EnableCharacterControl();
 
         // Clear the text from the screen.
         m_MessageText.text = string.Empty;
 
         // While there is not one tank left...
-        while (!OneTankLeft())
+        while (true/*!OutsideofCamera()*/)
         {
             // ... return on the next frame.
             yield return null;
         }
     }
 
-
+    //ALSO NEEDS TO BE CHANGED BUT LATER WHEN WE HAVE A BETTER GRASP ON HOW WE WANT THIS TO WORK
     private IEnumerator RoundEnding()
     {
         // Stop tanks from moving.
-        DisableTankControl();
+        DisableCharacterControl();
 
         // Clear the winner from the previous round.
         m_RoundWinner = null;
@@ -154,110 +155,82 @@ public class GameManager : MonoBehaviour
         yield return m_EndWait;
     }
 
-
-    // This is used to check if there is one or fewer tanks remaining and thus the round should end.
-    private bool OneTankLeft()
+    //ThIS FUNCTION IS JANKY AND NEEDS TO BE CHANGED
+    private bool OneCharacterLeft() //this function checks if there are fewer characters remaning and thus the round should end
     {
         // Start the count of tanks left at zero.
-        int numTanksLeft = 0;
+        int numCharsLeft = 0;
 
-        // Go through all the tanks...
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            // ... and if they are active, increment the counter.
-            if (m_Tanks[i].m_Instance.activeSelf)
-                numTanksLeft++;
+        // ... and if they are active, increment the counter.
+        if (m_characters[0].m_Instance.activeSelf) { 
+            numCharsLeft++;
         }
 
         // If there are one or fewer tanks remaining return true, otherwise return false.
-        return numTanksLeft <= 1;
+        return numCharsLeft <= 1;
     }
 
-
-    // This function is to find out if there is a winner of the round.
-    // This function is called with the assumption that 1 or fewer tanks are currently active.
-    private TankManager GetRoundWinner()
+    //MIGHT NEED TO CHANGE THIS FUNCTION SO WE CAN GAUGE IF YOU WON IN A BETTER WAY
+    private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
     {
-        // Go through all the tanks...
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            // ... and if one of them is active, it is the winner so return it.
-            if (m_Tanks[i].m_Instance.activeSelf)
-                return m_Tanks[i];
+        // ... and if one of them is active, it is the winner so return it.
+        if (m_characters[0].m_Instance.activeSelf) { 
+            return m_characters[0];
         }
 
         // If none of the tanks are active it is a draw so return null.
         return null;
     }
 
-
     // This function is to find out if there is a winner of the game.
-    private TankManager GetGameWinner()
+    private CharacterManager GetGameWinner() //returns the overall game winner
     {
         // Go through all the tanks...
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            // ... and if one of them has enough rounds to win the game, return it.
-            if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
-                return m_Tanks[i];
-        }
 
+        // ... and if one of them has enough rounds to win the game, return it.
+        if (m_characters[0].m_Wins == m_NumRoundsToWin)
+        {
+            return m_characters[0];
+        }
+      
         // If no tanks have enough rounds to win, return null.
         return null;
     }
 
 
-    // Returns a string message to display at the end of each round.
-    private string EndMessage()
+    private string EndMessage() // Returns a string message to display at the end of each round.
     {
-        // By default when a round ends there are no winners so the default end message is a draw.
-        string message = "DRAW!";
+        string message = "";
 
-        // If there is a winner then change the message to reflect that.
         if (m_RoundWinner != null)
-            message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
+        { // If there is a winner then change the message to reflect that.
+            message = "You Caught the Runner!!";
 
-        // Add some line breaks after the initial message.
-        message += "\n\n\n\n";
+            // Add some line breaks after the initial message.
+            message += "\n\n\n\n";
 
-        // Go through all the tanks and add each of their scores to the message.
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
+            return message;
         }
-
-        // If there is a game winner, change the entire message to reflect that.
-        if (m_GameWinner != null)
-            message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
-
         return message;
     }
 
-
-    // This function is used to turn all the tanks back on and reset their positions and properties.
-    private void ResetAllTanks()
+    private void ResetAllCharacters()   //reset characters
     {
-        for (int i = 0; i < m_Tanks.Length; i++)
+        for (int i = 0; i < m_characters.Length; i++)
         {
-            m_Tanks[i].Reset();
+            m_characters[i].Reset();
         }
     }
 
 
-    private void EnableTankControl()
+    private void EnableCharacterControl() //enables control of character
     {
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            m_Tanks[i].EnableControl();
-        }
+        m_characters[0].EnableControl();
     }
 
 
-    private void DisableTankControl()
+    private void DisableCharacterControl() //diables control of follower
     {
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            m_Tanks[i].DisableControl();
-        }
+        m_characters[0].DisableControl();
     }
 }
