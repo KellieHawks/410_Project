@@ -57,13 +57,7 @@ public class GameManager : MonoBehaviour
     private void SetCameraTargets()
     {
         // Create a collection of transforms the same size as the number of characters.
-        Transform[] targets = new Transform[m_characters.Length];
-
-        // ... set up appropriate transform, only runner set as target
-        targets[0] = m_characters[0].m_Instance.transform;
-
-        // These are the targets the camera should follow.
-        m_CameraControl.m_Targets = targets;
+        // m_CameraControl.player = m_CameraControl.player;
     }
 
 
@@ -101,7 +95,7 @@ public class GameManager : MonoBehaviour
         DisableCharacterControl();
 
         // Snap the camera's zoom and position to something appropriate for the reset tanks.
-        m_CameraControl.SetStartPositionAndSize();
+        // m_CameraControl.SetStartPositionAndSize();
 
         // Increment the round number and display text showing the players what round it is.
         m_levelNumber++;

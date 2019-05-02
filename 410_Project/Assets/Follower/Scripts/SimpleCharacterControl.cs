@@ -113,15 +113,15 @@ public class SimpleCharacterControl : MonoBehaviour {
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
-        bool walk = Input.GetKey(KeyCode.LeftShift);
+        // bool walk = Input.GetKey(KeyCode.LeftShift);
 
-        if (v < 0) {
-            if (walk) { v *= m_backwardsWalkScale; }
-            else { v *= m_backwardRunScale; }
-        } else if(walk)
-        {
-            v *= m_walkScale;
-        }
+        //if (v < 0) {
+        //    if (walk) { v *= m_backwardsWalkScale; }
+        //    else { v *= m_backwardRunScale; }
+        //} else if(walk)
+        //{
+        //    v *= m_walkScale;
+        //}
 
         m_currentV = Mathf.Lerp(m_currentV, v, Time.deltaTime * m_interpolation);
         m_currentH = Mathf.Lerp(m_currentH, h, Time.deltaTime * m_interpolation);
@@ -131,7 +131,7 @@ public class SimpleCharacterControl : MonoBehaviour {
 
         m_animator.SetFloat("MoveSpeed", m_currentV);
 
-        JumpingAndLanding();
+        //JumpingAndLanding();
     }
 
     private void DirectUpdate()
@@ -141,11 +141,11 @@ public class SimpleCharacterControl : MonoBehaviour {
 
         Transform camera = Camera.main.transform;
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            v *= m_walkScale;
-            h *= m_walkScale;
-        }
+        //if (Input.GetKey(KeyCode.LeftShift))
+        //{
+        //    v *= m_walkScale;
+        //    h *= m_walkScale;
+        //}
 
         m_currentV = Mathf.Lerp(m_currentV, v, Time.deltaTime * m_interpolation);
         m_currentH = Mathf.Lerp(m_currentH, h, Time.deltaTime * m_interpolation);
@@ -166,7 +166,7 @@ public class SimpleCharacterControl : MonoBehaviour {
             m_animator.SetFloat("MoveSpeed", direction.magnitude);
         }
 
-        JumpingAndLanding();
+        //JumpingAndLanding();
     }
 
     private void JumpingAndLanding()
