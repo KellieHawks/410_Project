@@ -24,7 +24,7 @@ public class FollowerMovement : MonoBehaviour
     private bool m_isGrounded;
     private bool m_wasGrounded;
 
-    private bool game_over = false;
+    //private bool game_over = false;
 
     private Animator m_animator;
 
@@ -159,6 +159,8 @@ public class FollowerMovement : MonoBehaviour
     void OnBecameInvisible()
     {
         Debug.Log("You Lose!");
-        game_over = true;
+
+
+        //game_over = true;
     }
 }

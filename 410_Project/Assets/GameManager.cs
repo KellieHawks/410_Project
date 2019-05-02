@@ -14,12 +14,11 @@ public class GameManager : MonoBehaviour
     public CharacterManager[] m_characters;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
 
-    private int m_levelNumber;                  // Which round the game is currently on.
+    private int m_levelNumber = 0;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
-    private CharacterManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
+    private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-
 
     /*
     General Notes on Set up: Kellie
@@ -36,7 +35,7 @@ public class GameManager : MonoBehaviour
         SpawnAllCharacters();
         SetCameraTargets();
 
-        // Once the tanks have been created and the camera is using them as targets, start the game.
+        // Once the games assets have been created and the camera is following the cat, start the gameloop
         StartCoroutine(GameLoop());
     }
 
@@ -95,7 +94,7 @@ public class GameManager : MonoBehaviour
         DisableCharacterControl();
 
         // Snap the camera's zoom and position to something appropriate for the reset tanks.
-        // m_CameraControl.SetStartPositionAndSize();
+        //m_CameraControl.SetStartPositionAndSize();
 
         // Increment the round number and display text showing the players what round it is.
         m_levelNumber++;
@@ -115,28 +114,26 @@ public class GameManager : MonoBehaviour
         m_MessageText.text = string.Empty;
 
         // While there is not one tank left...
-        while (true/*!OutsideofCamera()*/)
+        while (!CheckLost())
         {
-            // ... return on the next frame.
             yield return null;
         }
     }
 
-    //ALSO NEEDS TO BE CHANGED BUT LATER WHEN WE HAVE A BETTER GRASP ON HOW WE WANT THIS TO WORK
     private IEnumerator RoundEnding()
     {
         // Stop tanks from moving.
         DisableCharacterControl();
 
         // Clear the winner from the previous round.
-        m_RoundWinner = null;
+        m_LevelWinner = null;
 
         // See if there is a winner now the round is over.
-        m_RoundWinner = GetRoundWinner();
+        m_LevelWinner = GetRoundWinner();
 
         // If there is a winner, increment their score.
-        if (m_RoundWinner != null)
-            m_RoundWinner.m_Wins++;
+        if (m_LevelWinner != null)
+            m_LevelWinner.m_Wins++;
 
         // Now the winner's score has been incremented, see if someone has one the game.
         m_GameWinner = GetGameWinner();
@@ -149,22 +146,17 @@ public class GameManager : MonoBehaviour
         yield return m_EndWait;
     }
 
-    //ThIS FUNCTION IS JANKY AND NEEDS TO BE CHANGED
-    private bool OneCharacterLeft() //this function checks if there are fewer characters remaning and thus the round should end
+
+    private bool CheckLost() //this function checks if the user has lost the game
     {
-        // Start the count of tanks left at zero.
-        int numCharsLeft = 0;
-
         // ... and if they are active, increment the counter.
-        if (m_characters[0].m_Instance.activeSelf) { 
-            numCharsLeft++;
+        if (m_characters[0].m_Instance.activeSelf) {
+            return false;
         }
-
-        // If there are one or fewer tanks remaining return true, otherwise return false.
-        return numCharsLeft <= 1;
+                
+        return true;
     }
 
-    //MIGHT NEED TO CHANGE THIS FUNCTION SO WE CAN GAUGE IF YOU WON IN A BETTER WAY
     private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
     {
         // ... and if one of them is active, it is the winner so return it.
@@ -187,7 +179,7 @@ public class GameManager : MonoBehaviour
             return m_characters[0];
         }
       
-        // If no tanks have enough rounds to win, return null.
+        // if user has not beat the game, return null
         return null;
     }
 
@@ -196,14 +188,17 @@ public class GameManager : MonoBehaviour
     {
         string message = "";
 
-        if (m_RoundWinner != null)
-        { // If there is a winner then change the message to reflect that.
-            message = "You Caught the Runner!!";
+        if (m_LevelWinner != null)
+        {
+            message = "Level complete!" + m_levelNumber + "/5";
 
             // Add some line breaks after the initial message.
             message += "\n\n\n\n";
+        }
 
-            return message;
+        if (m_GameWinner != null)
+        { // If there is a winner then change the message to reflect that.
+            message = "You Caught the Runner!!";
         }
         return message;
     }
