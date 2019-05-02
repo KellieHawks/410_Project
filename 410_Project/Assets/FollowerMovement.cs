@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowerMovement : MonoBehaviour
 {
-    private float m_moveSpeed = 25f;
+    private float m_moveSpeed = 50f;
     private float m_turnSpeed = 180f;
     private float m_jumpForce = 300f;
     public AudioSource m_MovementAudio;
@@ -23,6 +23,8 @@ public class FollowerMovement : MonoBehaviour
     private int numjumps;
     private bool m_isGrounded;
     private bool m_wasGrounded;
+
+    private bool game_over = false;
 
     private Animator m_animator;
 
@@ -113,7 +115,7 @@ public class FollowerMovement : MonoBehaviour
 
         m_animator.SetFloat("MoveSpeed", m_MovementInputValue);
 
-        m_Rigidbody.AddForce(movement * m_moveSpeed);
+        //m_Rigidbody.AddForce(movement * m_moveSpeed);
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
 
         if (Input.GetKeyDown("space") && numjumps < 1)
@@ -152,5 +154,11 @@ public class FollowerMovement : MonoBehaviour
         {
             m_isGrounded = true;
         }
+    }
+
+    void OnBecameInvisible()
+    {
+        Debug.Log("You Lose!");
+        game_over = true;
     }
 }
