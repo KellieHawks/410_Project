@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
     public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
     public GameObject m_FollowerPrefab;             // Reference to the prefab the players will control.
+    public GameObject m_RunnerPrefab;
     public CharacterManager[] m_characters;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
 
@@ -42,14 +43,14 @@ public class GameManager : MonoBehaviour
 
     private void SpawnAllCharacters() //loops through and instantiates the two characters, follower and runner
     {
-        for (int i = 0; i < m_characters.Length; i++)
-        {
             // ... create them, set their player number and references needed for control.
-            m_characters[i].m_Instance =
-                Instantiate(m_FollowerPrefab, m_characters[i].m_SpawnPoint.position, m_characters[i].m_SpawnPoint.rotation) as GameObject;
-            m_characters[i].m_PlayerNumber = i + 1;
-            m_characters[i].Setup();
-        }
+            m_characters[0].m_Instance =
+                Instantiate(m_FollowerPrefab, m_characters[0].m_SpawnPoint.position, m_characters[0].m_SpawnPoint.rotation) as GameObject;
+            m_characters[1].m_Instance =
+                Instantiate(m_RunnerPrefab, m_characters[1].m_SpawnPoint.position, m_characters[1].m_SpawnPoint.rotation) as GameObject;
+            //m_characters[i].m_PlayerNumber = i + 1;
+            m_characters[0].Setup();
+            m_characters[1].Setup();
     }
 
 

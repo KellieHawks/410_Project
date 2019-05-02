@@ -14,12 +14,12 @@ public class RunnerMovement : MonoBehaviour
     private float m_MovementValue;
     private float m_TurnValue;
 
-    public Rigidbody follower;
+    //public Rigidbody follower;
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>(); //using getcomponent_rigid body to store a reference
-        follower = GetComponent<Rigidbody>();
+        //follower = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()

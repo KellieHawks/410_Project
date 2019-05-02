@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterManager
 {
     public Transform m_SpawnPoint;
-    [HideInInspector] public int m_PlayerNumber;
+    //[HideInInspector] public int m_PlayerNumber;
     [HideInInspector] public GameObject m_Instance;
     [HideInInspector] public int m_Wins;
 
