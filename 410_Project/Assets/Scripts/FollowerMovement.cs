@@ -8,7 +8,7 @@ public class FollowerMovement : MonoBehaviour
     private float m_turnSpeed = 180f;
     private float m_jumpForce = 300f;
     public AudioSource m_MovementAudio;
-    public AudioClip m_running;
+    //public AudioClip m_running;
     public AudioClip m_walking;
     public AudioClip m_none;
     public float m_PitchRange = 0.2f;

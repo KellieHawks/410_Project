@@ -11,14 +11,14 @@ public class CharacterManager
 
 
     private FollowerMovement m_Movement;
-    private GameObject m_CanvasGameObject;
+    //private GameObject m_CanvasGameObject;
 
 
     public void Setup()
     {
         m_Movement = m_Instance.GetComponent<FollowerMovement>();
 
-        m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
+        //m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
     }
 
@@ -26,7 +26,7 @@ public class CharacterManager
     {
         m_Movement.enabled = false;
 
-        m_CanvasGameObject.SetActive(false);
+        //m_CanvasGameObject.SetActive(false);
     }
 
 
@@ -34,7 +34,7 @@ public class CharacterManager
     {
         m_Movement.enabled = true;
 
-        m_CanvasGameObject.SetActive(true);
+        //m_CanvasGameObject.SetActive(true);
     }
 
 

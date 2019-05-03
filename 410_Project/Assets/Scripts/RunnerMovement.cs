@@ -11,7 +11,7 @@ public class RunnerMovement : MonoBehaviour
     private Rigidbody m_Rigidbody;
 
     private Animator m_animator;
-    private float m_MovementValue;
+    //private float m_MovementValue;
     private float m_TurnValue;
 
     //public Rigidbody follower;
@@ -19,14 +19,19 @@ public class RunnerMovement : MonoBehaviour
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>(); //using getcomponent_rigid body to store a reference
-        //follower = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
-        m_MovementValue = 0f;
+        //m_Rigidbody.isKinematic = false;
+        //m_MovementValue = 0f;
         m_TurnValue = 0f;
     }
+
+    //private void OnDisable()
+    //{
+    //    m_Rigidbody.isKinematic = true; //stops forces from moving it while it's invisible
+    //}
 
     private void Start()
     {
@@ -35,7 +40,7 @@ public class RunnerMovement : MonoBehaviour
 
     private void Update()
     {
-        m_MovementValue = 0f;
+        //m_MovementValue = 0f;
         m_TurnValue = 0f;
     }
 
@@ -50,7 +55,7 @@ public class RunnerMovement : MonoBehaviour
 
         Vector3 movement = transform.forward * 1f * m_moveSpeed * Time.deltaTime;
 
-        m_animator.SetFloat("MoveSpeed", 1f);
+        //m_animator.SetFloat("MoveSpeed", 1f);
 
         m_Rigidbody.AddForce(movement * m_moveSpeed);
         m_Rigidbody.AddForce(Physics.gravity);
