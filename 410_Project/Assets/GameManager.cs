@@ -57,7 +57,9 @@ public class GameManager : MonoBehaviour
     private void SetCameraTargets()
     {
         // Create a collection of transforms the same size as the number of characters.
-        // m_CameraControl.player = m_CameraControl.player;
+
+        // These are the targets the camera should follow.
+        m_CameraControl.m_Targets = m_characters[1].m_Instance.transform;
     }
 
 
