@@ -163,4 +163,14 @@ public class FollowerMovement : MonoBehaviour
 
         //game_over = true;
     }
+
+    /*private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pick Up"))
+        { //when triggered, object is deactivated
+            other.gameObject.SetActive(false);
+            count++;
+            setCountText();
+        }
+    }*/
 }

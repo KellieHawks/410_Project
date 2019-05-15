@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - WayPoint
+  - Endpoint
   layers:
   - Default
   - TransparentFX

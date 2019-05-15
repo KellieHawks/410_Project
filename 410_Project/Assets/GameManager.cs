@@ -121,9 +121,8 @@ public class GameManager : MonoBehaviour
         // Clear the text from the screen.
         m_MessageText.text = string.Empty;
 
-
         // While there is not one tank left...
-        while (!CheckLost())
+        while (!playing())
         {
             yield return null;
         }
@@ -147,6 +146,14 @@ public class GameManager : MonoBehaviour
         // Now the winner's score has been incremented, see if someone has one the game.
         m_GameWinner = GetGameWinner();
 
+        //create a if statement
+        //if died
+        //show dead end message
+        //reset appropriate variables
+        //if not died, increment the number of level
+        //yirld retrun endwait
+
+
         // Get a message based on the scores and whether or not there is a game winner and display it.
         string message = EndMessage();
         m_MessageText.text = message;
@@ -156,12 +163,23 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private bool CheckLost() //this function checks if the user has lost the game
+    private bool playing() //this function checks if the user has lost the game
     {
         // ... and if they are active, increment the counter.
+
+        //check if the character is outside of the screen
+        //start variable counter
+        //show on screen counter
+        //if counter reaches five seconds
+        //set variable set to whether or not you died to true
+        //return false
         if (m_characters[0].m_Instance.activeSelf) { 
             return false;
         }
+
+        //else statment, if reached trigger,
+        //set variable to signify if it is a game won or not
+        //return false
                 
         return true;
     }
