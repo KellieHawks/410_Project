@@ -13,14 +13,14 @@ public class GameManager : MonoBehaviour
     public GameObject m_FollowerPrefab;             // Reference to the prefab the players will control.
     public GameObject m_RunnerPrefab;
     public CharacterManager[] m_characters;               // A collection of managers for enabling and disabling different aspects of the tanks.
-
+    public bool isVisibleForCamera1;
 
     private int m_levelNumber = 0;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-
+    
     /*
     General Notes on Set up: Kellie
     m_characters[0] - follower
@@ -56,12 +56,18 @@ public class GameManager : MonoBehaviour
 
     private void SetCameraTargets()
     {
+        Transform[] targets = new Transform[m_characters.Length];
         // Create a collection of transforms the same size as the number of characters.
 
-        // These are the targets the camera should follow.
-        m_CameraControl.m_Targets = m_characters[1].m_Instance.transform;
-    }
+        for (int i = 0; i < targets.Length; i++)
+        {
+            // ... set it to the appropriate tank transform.
+            targets[i] = m_characters[i].m_Instance.transform;
+        }
 
+        // These are the targets the camera should follow.
+        m_CameraControl.m_Targets = targets;
+    }
 
     // This is called from start and will run each phase of the game one after another.
     private IEnumerator GameLoop()
@@ -116,6 +122,7 @@ public class GameManager : MonoBehaviour
         // Clear the text from the screen.
         m_MessageText.text = string.Empty;
 
+
         // While there is not one tank left...
         while (!CheckLost())
         {
@@ -153,7 +160,7 @@ public class GameManager : MonoBehaviour
     private bool CheckLost() //this function checks if the user has lost the game
     {
         // ... and if they are active, increment the counter.
-        if (m_characters[0].m_Instance.activeSelf) {
+        if (m_characters[0].m_Instance.activeSelf) { 
             return false;
         }
                 
