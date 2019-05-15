@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-    
     /*
     General Notes on Set up: Kellie
     m_characters[0] - follower
@@ -85,7 +84,7 @@ public class GameManager : MonoBehaviour
         if (m_GameWinner != null)
         {
             // If there is a game winner, restart the level.
-            SceneManager.LoadScene(0); //We will eventually change this to load the different scenes
+            SceneManager.LoadScene(m_levelNumber); //We will eventually change this to load the different scenes
         }
         else
         {
