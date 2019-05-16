@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowerMovement : MonoBehaviour
 {
-    private float m_moveSpeed = 50f;
+    private float m_moveSpeed = 80f;
     private float m_turnSpeed = 180f;
     private float m_jumpForce = 300f;
     public AudioSource m_MovementAudio;

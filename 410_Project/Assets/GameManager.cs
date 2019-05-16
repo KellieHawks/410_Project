@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     public GameObject m_FollowerPrefab;             // Reference to the prefab the players will control.
     public GameObject m_RunnerPrefab;
     public CharacterManager[] m_characters;               // A collection of managers for enabling and disabling different aspects of the tanks.
-    public bool isVisibleForCamera1;
 
     private int m_levelNumber = 0;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
@@ -162,29 +161,66 @@ public class GameManager : MonoBehaviour
         yield return m_EndWait;
     }
 
+    private bool res = false;
+    private bool winner = false;
+    public float timeLeft = 10.0f;
+
 
     private bool playing() //this function checks if the user has lost the game
     {
-        // ... and if they are active, increment the counter.
 
-        //check if the character is outside of the screen
-        //start variable counter
-        //show on screen counter
-        //if counter reaches five seconds
-        //set variable set to whether or not you died to true
-        //return false
-        if (m_characters[0].m_Instance.activeSelf) { 
-            return false;
+        //once cat reaches trigger and dies
+        //start timer
+        if (!m_characters[1].m_Instance.activeSelf) {
+            StartCoroutine("LoseTime");
+            if (!m_characters[0].m_Instance.activeSelf)
+            {
+                winner = true;
+                return true;
+                //yield break;
+            }
+            if (timeLeft <= 0.00f)
+            {
+                return true;
+            }
+            //m_MessageText.text = timeLeft.ToString();
+            //print(timeLeft);
         }
 
-        //else statment, if reached trigger,
-        //set variable to signify if it is a game won or not
-        //return false
+        if (m_characters[1].m_Instance.activeSelf) { 
+            return false;
+        }
                 
-        return true;
+        return false;
     }
 
-    private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
+    IEnumerator LoseTime()
+    {
+        if (true)
+        {
+            timeLeft -= Time.deltaTime;
+            m_MessageText.text = (timeLeft).ToString("0");
+            if (timeLeft < 0)
+            {
+                m_MessageText.text = "";
+                yield return m_EndWait;
+            }
+
+
+            ////yield return new WaitForSeconds();
+            //m_MessageText.text = timeLeft.ToString();
+            //Time.timeScale = 1;
+            //timeLeft--;
+            //if (timeLeft < -1)
+            //{
+            //    m_MessageText.text = "";
+            //    yield return m_EndWait;
+            //}
+            //yield return new WaitForSeconds(200);
+        }
+    }
+
+        private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
     {
         // ... and if one of them is active, it is the winner so return it.
         if (m_characters[0].m_Instance.activeSelf) { 

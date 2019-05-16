@@ -73,6 +73,15 @@ public class RunnerMovement : MonoBehaviour
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
 
+    public void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("Endpoint"))
+        {
+            //col.gameObject.SetActive(false);
+            m_Rigidbody.gameObject.SetActive(false);
+        }
+    }
+
     //private void OnTriggerStay(Collider other)
     //{
     //    if (other.gameObject.tag.CompareTo("Player") == 0)
