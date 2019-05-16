@@ -82,21 +82,9 @@ public class RunnerMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision c)
-
-    {
-
-        print("Player collided with" + c.collider.gameObject.name);
-
-    }
-
-    //void OnCollisionEnter(Collision col)
+    //void OnCollisionEnter(Collision c)
     //{
-    //    if (col.gameObject.CompareTag("Endpoint"))
-    //    {
-    //        m_Rigidbody.gameObject.SetActive(false);
-
-    //    }
+    //    print("Player collided with" + c.collider.gameObject.name);
     //}
 
 

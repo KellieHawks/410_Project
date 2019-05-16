@@ -156,6 +156,16 @@ public class FollowerMovement : MonoBehaviour
         }
     }
 
+    public void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("Endpoint"))
+        {
+            //col.gameObject.SetActive(false);
+            m_Rigidbody.gameObject.SetActive(false);
+        }
+    }
+
+
     void OnBecameInvisible()
     {
         Debug.Log("You Lose!");

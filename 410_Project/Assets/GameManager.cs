@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+    private bool res = false;
+    private bool winner = false;
+    public float timeLeft = 10.0f;
+
     /*
     General Notes on Set up: Kellie
     m_characters[0] - follower
@@ -111,7 +115,6 @@ public class GameManager : MonoBehaviour
         yield return m_StartWait;
     }
 
-    //NEED TO CHANGE SO IT TAKES INTO ACCOUNT IF THE CHARACTER HAS BEEN OUTSIDE OF CAMERA
     private IEnumerator RoundPlaying()
     {
         // As soon as the round begins playing let the players control the tanks.
@@ -127,6 +130,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
+    {
+        // ... and if one of them is active, it is the winner so return it.
+        if (m_characters[0].m_Instance.activeSelf)
+        {
+            return m_characters[0];
+        }
+
+        // If none of the tanks are active it is a draw so return null.
+        return null;
+    }
+
+    //i need this to detect if the follower disappeared or not (won or lose) and then show the correct dialogue 
+    //and got to the appropriate level
+
     private IEnumerator RoundEnding()
     {
         // Stop tanks from moving.
@@ -140,10 +158,17 @@ public class GameManager : MonoBehaviour
 
         // If there is a winner, increment their score.
         if (m_LevelWinner != null)
+        {
             m_LevelWinner.m_Wins++;
+        }
 
         // Now the winner's score has been incremented, see if someone has one the game.
         m_GameWinner = GetGameWinner();
+
+        if (winner == true)
+        {
+            m_LevelWinner.m_Wins++;
+        }
 
         //create a if statement
         //if died
@@ -160,11 +185,6 @@ public class GameManager : MonoBehaviour
         // Wait for the specified length of time until yielding control back to the game loop.
         yield return m_EndWait;
     }
-
-    private bool res = false;
-    private bool winner = false;
-    public float timeLeft = 10.0f;
-
 
     private bool playing() //this function checks if the user has lost the game
     {
@@ -218,17 +238,6 @@ public class GameManager : MonoBehaviour
             //}
             //yield return new WaitForSeconds(200);
         }
-    }
-
-        private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
-    {
-        // ... and if one of them is active, it is the winner so return it.
-        if (m_characters[0].m_Instance.activeSelf) { 
-            return m_characters[0];
-        }
-
-        // If none of the tanks are active it is a draw so return null.
-        return null;
     }
 
     // This function is to find out if there is a winner of the game.
