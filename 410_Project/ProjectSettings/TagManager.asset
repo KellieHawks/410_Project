@@ -8,6 +8,8 @@ TagManager:
   - WayPoint
   - Endpoint
   - Objects
+  - pumpkin
+  - apple
   layers:
   - Default
   - TransparentFX

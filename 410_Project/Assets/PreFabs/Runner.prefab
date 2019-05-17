@@ -9161,8 +9161,13 @@ MonoBehaviour:
   - {fileID: 1757309039268220334, guid: a8eb86ae426a540eb9c280f5e684f093, type: 3}
   - {fileID: 4639908619232834214, guid: 0d969cbf9ec594f5da35d0ae786df6e8, type: 3}
   - {fileID: 3560351111306200664, guid: 2866fd6cc8094484084ea5355603aafb, type: 3}
+  - {fileID: 161323749051907844, guid: 93ca83968a8639247828c6012d0a6589, type: 3}
+  - {fileID: 3005504616524532570, guid: 61f6d0d08701088449bea64b0bd939ce, type: 3}
+  - {fileID: 5811878430253456333, guid: 018c5630814ba56468459967ad73d468, type: 3}
+  - {fileID: 5040413653786966701, guid: a73cccff193efd4468799ffaa0715b85, type: 3}
+  - {fileID: 4342714037448583532, guid: 92beb598630b71f45864672d7195e442, type: 3}
   currentWayPoint: 0
-  speed: 7
+  speed: 8
 --- !u!65 &876906526969461963
 BoxCollider:
   m_ObjectHideFlags: 0

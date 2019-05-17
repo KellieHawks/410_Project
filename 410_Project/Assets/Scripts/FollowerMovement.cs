@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FollowerMovement : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class FollowerMovement : MonoBehaviour
     private int numjumps;
     private bool m_isGrounded;
     private bool m_wasGrounded;
+    private bool speed_powerup = false;
+    private int counter = 0;
 
     //private bool game_over = false;
 
@@ -60,17 +63,27 @@ public class FollowerMovement : MonoBehaviour
     private void Update() {
 
         m_animator.SetBool("Grounded", m_isGrounded);
-
         // Store the player's input and make sure the audio for the engine is playing.
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-
         WalkingAudio(); //calls function where engine sounds are dealt with
+
+
+        if (speed_powerup == true)
+        {
+            counter++;
+            if (counter > 20)
+            {
+                m_moveSpeed = 50f;
+                counter = 0;
+                speed_powerup = false;
+            }
+        }
+
     }
 
     private void WalkingAudio(){
         // Play the correct audio clip based on whether or not the tank is moving and what audio is currently playing.
-
         if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
         { //if movement in vertical plane or horizontal axis, you are moving 
             if (m_MovementAudio.clip == m_walking)
@@ -93,7 +106,7 @@ public class FollowerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Move and turn the tank.
+        // Move and turn the collower.
         Move();
         Turn();
     }
@@ -120,14 +133,12 @@ public class FollowerMovement : MonoBehaviour
 
         if (Input.GetKeyDown("space") && numjumps < 1)
         {
-
             m_isGrounded = false;
             m_wasGrounded = true;
 
             numjumps++;
             Vector3 jump = new Vector3(0.0f, m_jumpForce, 0.0f);
             m_Rigidbody.AddForce(jump);
-
         }
 
         if (m_isGrounded == true)
@@ -163,16 +174,36 @@ public class FollowerMovement : MonoBehaviour
             //col.gameObject.SetActive(false);
             m_Rigidbody.gameObject.SetActive(false);
         }
+
+        if (col.gameObject.CompareTag("pumpkin"))
+        {
+            col.gameObject.SetActive(false);
+            m_moveSpeed = 150;
+            speed_powerup = true;
+
+            //setCountText(m_moveSpeed);
+        }
+        if (col.gameObject.CompareTag("apple"))
+        {
+            col.gameObject.SetActive(false);
+            m_moveSpeed = 20;
+            speed_powerup = true;
+
+            //setCountText(m_moveSpeed);
+        }
     }
 
+    //void setCountText(float numb)
+    //{
+    //    if (numb > 50)
+    //        m_MessageText.text = "You have a speed power up!";
+    //    else
+    //    {
+    //        m_MessageText.text = "You have a speed power down!";
+    //    }
 
-    void OnBecameInvisible()
-    {
-        Debug.Log("You Lose!");
+    //}
 
-
-        //game_over = true;
-    }
 
     /*private void OnTriggerEnter(Collider other)
     {
