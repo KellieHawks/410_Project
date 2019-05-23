@@ -580,6 +580,7 @@ MonoBehaviour:
   m_walking: {fileID: 8300000, guid: a028be27b3c28494592f11a6ae991669, type: 3}
   m_none: {fileID: 0}
   m_PitchRange: 0.2
+  pumpkincounter: 0
 --- !u!82 &5574284037512751614
 AudioSource:
   m_ObjectHideFlags: 0

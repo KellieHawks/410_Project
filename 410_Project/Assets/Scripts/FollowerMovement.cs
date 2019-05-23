@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FollowerMovement : MonoBehaviour
 {
-    private float m_moveSpeed = 80f;
+    private float m_moveSpeed = 100f;
     private float m_turnSpeed = 180f;
     private float m_jumpForce = 300f;
     public AudioSource m_MovementAudio;
@@ -26,8 +26,7 @@ public class FollowerMovement : MonoBehaviour
     private bool m_wasGrounded;
     private bool speed_powerup = false;
     private int counter = 0;
-
-    //private bool game_over = false;
+    public int pumpkincounter = 0;
 
     private Animator m_animator;
 
@@ -72,7 +71,7 @@ public class FollowerMovement : MonoBehaviour
         if (speed_powerup == true)
         {
             counter++;
-            if (counter > 20)
+            if (counter > 50)
             {
                 m_moveSpeed = 50f;
                 counter = 0;
@@ -109,6 +108,17 @@ public class FollowerMovement : MonoBehaviour
         // Move and turn the collower.
         Move();
         Turn();
+        pumpkinnumber();
+    }
+
+    private void pumpkinnumber() {
+    
+        if (Input.GetKeyDown("return") && pumpkincounter > 0)
+        {
+            m_moveSpeed = 150f;
+            pumpkincounter--;
+            speed_powerup = true;
+        }
     }
 
     private void Move()
@@ -171,47 +181,21 @@ public class FollowerMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Endpoint"))
         {
-            //col.gameObject.SetActive(false);
             m_Rigidbody.gameObject.SetActive(false);
         }
 
         if (col.gameObject.CompareTag("pumpkin"))
         {
             col.gameObject.SetActive(false);
-            m_moveSpeed = 150;
-            speed_powerup = true;
 
-            //setCountText(m_moveSpeed);
+            pumpkincounter++;
+
         }
         if (col.gameObject.CompareTag("apple"))
         {
             col.gameObject.SetActive(false);
             m_moveSpeed = 20;
             speed_powerup = true;
-
-            //setCountText(m_moveSpeed);
         }
     }
-
-    //void setCountText(float numb)
-    //{
-    //    if (numb > 50)
-    //        m_MessageText.text = "You have a speed power up!";
-    //    else
-    //    {
-    //        m_MessageText.text = "You have a speed power down!";
-    //    }
-
-    //}
-
-
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Pick Up"))
-        { //when triggered, object is deactivated
-            other.gameObject.SetActive(false);
-            count++;
-            setCountText();
-        }
-    }*/
 }

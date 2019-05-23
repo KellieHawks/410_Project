@@ -1,10 +1,4 @@
-﻿//using UnityEngine;
-
-//public class CameraControl : MonoBehaviour
-//{
-//    public float m_DampTime = 0.2f;                 // Approximate time for the camera to refocus.
-//    public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class CameraControl : MonoBehaviour
