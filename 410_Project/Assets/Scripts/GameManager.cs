@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-    private bool res = false;
     private bool winner = false;
 
     private bool replay = false;
