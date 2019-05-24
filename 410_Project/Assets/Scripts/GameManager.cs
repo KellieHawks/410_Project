@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     public WayPointMovement level;
     public GameObject m_WayPointPrefab;
 
+    FollowerMovement fruitcounter;
+    GameObject player;
+    public Text m_message;
+
     /*
     General Notes on Set up: Kellie
     m_characters[0] - follower
@@ -45,6 +49,12 @@ public class GameManager : MonoBehaviour
 
         // Once the games assets have been created and the camera is following the cat, start the gameloop
         StartCoroutine(GameLoop());
+    }
+
+    void Update()
+    {
+        m_message.text = "Fruit: " + (m_characters[0].pumpkingetter()).ToString();
+
     }
 
 

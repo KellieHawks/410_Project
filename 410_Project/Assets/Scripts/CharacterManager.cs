@@ -16,6 +16,11 @@ public class CharacterManager
 
     }
 
+    public int pumpkingetter()
+    {
+        return m_Movement.pumpkincounter;
+    }
+
     public void DisableControl()
     {
         m_Movement.enabled = false;

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FollowerMovement : MonoBehaviour
 {
@@ -27,6 +26,7 @@ public class FollowerMovement : MonoBehaviour
     private bool speed_powerup = false;
     private int counter = 0;
     public int pumpkincounter = 0;
+
 
     private Animator m_animator;
 
@@ -60,6 +60,8 @@ public class FollowerMovement : MonoBehaviour
     }
 
     private void Update() {
+
+        Debug.Log(pumpkincounter);
 
         m_animator.SetBool("Grounded", m_isGrounded);
         // Store the player's input and make sure the audio for the engine is playing.
