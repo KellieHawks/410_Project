@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
     private bool winner = false;
-
     private bool replay = false;
 
     public float timeLeft = 10.0f;
@@ -103,13 +102,14 @@ public class GameManager : MonoBehaviour
         if (/*m_GameWinner*/ m_LevelWinner != null)
         {
             // If there is a game winner, restart the level.
-            SceneManager.LoadScene("Level1"); //We will eventually change this to load the different scenes
+            SceneManager.LoadScene(m_levelNumber); //We will eventually change this to load the different scenes
         }
         else
         {
             // If there isn't a winner yet, restart this coroutine so the loop continues.
             // Note that this coroutine doesn't yield.  This means that the current version of the GameLoop will end.
-            SceneManager.LoadScene("Level1");
+
+            SceneManager.LoadScene(m_levelNumber+1);
             StartCoroutine(GameLoop());
         }
     }
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
             m_MessageText.text = "Level " + m_levelNumber;
         }
 
-        else
+        if(replay == false)
         {
             m_levelNumber++;
             m_MessageText.text = "Level " + m_levelNumber;
@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
         {
             return m_characters[0];
         }
-        else return null; // return null if the winner did not win
+        return null; // return null if the winner did not win
     }
 
 

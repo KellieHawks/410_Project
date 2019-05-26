@@ -61,7 +61,7 @@ public class FollowerMovement : MonoBehaviour
 
     private void Update() {
 
-        Debug.Log(pumpkincounter);
+        //Debug.Log(pumpkincounter);
 
         m_animator.SetBool("Grounded", m_isGrounded);
         // Store the player's input and make sure the audio for the engine is playing.
