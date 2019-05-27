@@ -89,6 +89,8 @@ public class GameManager : MonoBehaviour
     // This is called from start and will run each phase of the game one after another.
     private IEnumerator GameLoop()
     {
+
+        //SetCameraTargets();
         // Start off by running the 'RoundStarting' coroutine but don't return until it's finished.
         yield return StartCoroutine(RoundStarting());
 
@@ -99,7 +101,7 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(RoundEnding());
 
         // This code is not run until 'RoundEnding' has finished.  At which point, check if a game winner has been found.
-        if (/*m_GameWinner*/ m_LevelWinner != null)
+        if (/*m_GameWinner*/ m_LevelWinner == null)
         {
             // If there is a game winner, restart the level.
             SceneManager.LoadScene(m_levelNumber); //We will eventually change this to load the different scenes
@@ -126,8 +128,11 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundStarting()
     {
         // As soon as the round starts reset the tanks and make sure they can't move.
+
         ResetAllCharacters();
+
         DisableCharacterControl();
+
 
         // Increment the round number and display text showing the players what round it is.
         if (replay == true)
