@@ -5,24 +5,28 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int m_NumRoundsToWin = 5;            // The number of rounds a single player has to win to win the game.
-    public float m_StartDelay = 3f;             // The delay between the start of RoundStarting and RoundPlaying phases.
-    public float m_EndDelay = 3f;               // The delay between the end of RoundPlaying and RoundEnding phases.
+    //public int m_NumRoundsToWin = 5;            // The number of rounds a single player has to win to win the game.
+    //public float m_StartDelay = 3f;             // The delay between the start of RoundStarting and RoundPlaying phases.
+    //public float m_EndDelay = 3f;               // The delay between the end of RoundPlaying and RoundEnding phases.
+    //private int m_levelNumber = 0;                  // Which round the game is currently on.
+    //private bool winner = false;
+    //private bool replay = false;
+
     public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
+    public ArrowController m_ArrowControl;
+
     public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
     public GameObject m_FollowerPrefab;             // Reference to the prefab the players will control.
     public GameObject m_RunnerPrefab;
     public CharacterManager[] m_characters;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
-    private int m_levelNumber = 0;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private CharacterManager m_LevelWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private CharacterManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-    private bool winner = false;
-    private bool replay = false;
 
-    public float timeLeft = 10.0f;
+    private float timeLeft = 10.0f;
+
     // here set up right? Bethany
     public WayPointMovement level;
     public GameObject m_WayPointPrefab;
@@ -40,11 +44,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Create the delays so they only have to be made once.
-        m_StartWait = new WaitForSeconds(m_StartDelay);
-        m_EndWait = new WaitForSeconds(m_EndDelay);
+        m_StartWait = new WaitForSeconds(GameState.m_StartDelay);
+        m_EndWait = new WaitForSeconds(GameState.m_EndDelay);
 
         SpawnAllCharacters();
         SetCameraTargets();
+        SetArrow();
 
         // Once the games assets have been created and the camera is following the cat, start the gameloop
         StartCoroutine(GameLoop());
@@ -70,6 +75,21 @@ public class GameManager : MonoBehaviour
         // m_WayPointPrefab = Instantiate(m_WayPointPrefab, level.wayPointList[0].position, level.wayPointList[0].rotation) as GameObject;
     }
 
+    private void SetArrow()
+    {
+        Transform[] targets = new Transform[m_characters.Length];
+        // Create a collection of transforms the same size as the number of characters.
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            // ... set it to the appropriate tank transform.
+            targets[i] = m_characters[i].m_Instance.transform;
+        }
+
+        // These are the targets the camera should follow.
+        m_ArrowControl.m_Targets = targets;
+    }
+
 
     private void SetCameraTargets()
     {
@@ -89,8 +109,6 @@ public class GameManager : MonoBehaviour
     // This is called from start and will run each phase of the game one after another.
     private IEnumerator GameLoop()
     {
-
-        //SetCameraTargets();
         // Start off by running the 'RoundStarting' coroutine but don't return until it's finished.
         yield return StartCoroutine(RoundStarting());
 
@@ -104,15 +122,15 @@ public class GameManager : MonoBehaviour
         if (/*m_GameWinner*/ m_LevelWinner == null)
         {
             // If there is a game winner, restart the level.
-            SceneManager.LoadScene(m_levelNumber); //We will eventually change this to load the different scenes
+            SceneManager.LoadScene(GameState.m_levelNumber); //We will eventually change this to load the different scenes
         }
         else
         {
             // If there isn't a winner yet, restart this coroutine so the loop continues.
             // Note that this coroutine doesn't yield.  This means that the current version of the GameLoop will end.
 
-            SceneManager.LoadScene(m_levelNumber+1);
-            StartCoroutine(GameLoop());
+            SceneManager.LoadScene(GameState.m_levelNumber + 1);
+            //StartCoroutine(GameLoop());
         }
     }
 
@@ -128,22 +146,20 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundStarting()
     {
         // As soon as the round starts reset the tanks and make sure they can't move.
-
         ResetAllCharacters();
-
         DisableCharacterControl();
 
-
         // Increment the round number and display text showing the players what round it is.
-        if (replay == true)
+        if (GameState.replay == true)
         {
-            m_MessageText.text = "Level " + m_levelNumber;
+            m_MessageText.text = "Level " + GameState.m_levelNumber;
         }
 
-        if(replay == false)
+        if (GameState.replay == false)
         {
-            m_levelNumber++;
-            m_MessageText.text = "Level " + m_levelNumber;
+            GameState.m_levelNumber++;
+            m_MessageText.text = "Level " + GameState.m_levelNumber;
+
         }
 
         // Wait for the specified length of time until yielding control back to the game loop.
@@ -168,7 +184,7 @@ public class GameManager : MonoBehaviour
     private CharacterManager GetRoundWinner() //this function checks if the character still exists, if so returns it as winner
     {
         //if the character reached the end in time, they won,
-        if (winner == true)
+        if (GameState.winner == true)
         {
             return m_characters[0];
         }
@@ -179,7 +195,7 @@ public class GameManager : MonoBehaviour
     private CharacterManager GetGameWinner() //returns the overall game winner
     {
         //if the number of wins is equal to the number of rounds needed to win...
-        if (m_characters[0].m_Wins == m_NumRoundsToWin)
+        if (m_characters[0].m_Wins == GameState.m_NumRoundsToWin)
         {
             return m_characters[0]; //return that character as the game winner
         }
@@ -193,15 +209,15 @@ public class GameManager : MonoBehaviour
 
         if (m_LevelWinner != null)
         {
-            message = "Level complete!" + m_levelNumber.ToString() + "/5";
-            replay = false;
+            message = "Level complete!" + GameState.m_levelNumber.ToString() + "/5";
+            GameState.replay = false;
 
             // Add some line breaks after the initial message.
             message += "\n\n\n\n";
         }
         else
         {
-            replay = true;
+            GameState.replay = true;
             message = "Level Failed. Play Again?";
         }
 
@@ -267,7 +283,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine("LoseTime");
             if (!m_characters[0].m_Instance.activeSelf)
             {
-                winner = true;
+                GameState.winner = true;
                 return true;
             }
             if (timeLeft <= 0.00f)

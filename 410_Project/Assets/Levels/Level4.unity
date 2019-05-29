@@ -3917,7 +3917,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842499382}
   m_LocalRotation: {x: 0, y: 0.9961947, z: -0, w: -0.08715578}
-  m_LocalPosition: {x: 2199, y: 92.93, z: 245}
+  m_LocalPosition: {x: 2199, y: 110.4, z: 245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4349,9 +4349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380e9792bd03e4a7d877ace28297617c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NumRoundsToWin: 5
-  m_StartDelay: 2
-  m_EndDelay: 3
   m_CameraControl: {fileID: 2124631551}
   m_MessageText: {fileID: 447425352}
   m_FollowerPrefab: {fileID: 5574804286446679729, guid: 73ab7807511ef41df977fd71ccce5aad,
@@ -4365,7 +4362,6 @@ MonoBehaviour:
   - m_SpawnPoint: {fileID: 1322793236}
     m_Instance: {fileID: 0}
     m_Wins: 0
-  timeLeft: 10
   level: {fileID: 0}
   m_WayPointPrefab: {fileID: 0}
   m_message: {fileID: 601236929}
