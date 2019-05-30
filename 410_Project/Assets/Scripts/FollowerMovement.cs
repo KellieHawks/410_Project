@@ -59,7 +59,8 @@ public class FollowerMovement : MonoBehaviour
         m_OriginalPitch = m_MovementAudio.pitch; //tanks remains the same pitch
     }
 
-    private void Update() {
+    private void Update()
+    {
 
         //Debug.Log(pumpkincounter);
 
@@ -83,7 +84,8 @@ public class FollowerMovement : MonoBehaviour
 
     }
 
-    private void WalkingAudio(){
+    private void WalkingAudio()
+    {
         // Play the correct audio clip based on whether or not the tank is moving and what audio is currently playing.
         if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
         { //if movement in vertical plane or horizontal axis, you are moving 
@@ -113,8 +115,9 @@ public class FollowerMovement : MonoBehaviour
         pumpkinnumber();
     }
 
-    private void pumpkinnumber() {
-    
+    private void pumpkinnumber()
+    {
+
         if (Input.GetKeyDown("return") && pumpkincounter > 0)
         {
             m_moveSpeed = 150f;

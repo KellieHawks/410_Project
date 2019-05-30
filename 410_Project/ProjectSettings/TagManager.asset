@@ -10,7 +10,12 @@ TagManager:
   - Objects
   - pumpkin
   - apple
+  - pickUp
+  - pumpkin
+  - apple
   - follower
+  - monster
+  - RightWall
   layers:
   - Default
   - TransparentFX
