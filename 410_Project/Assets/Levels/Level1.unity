@@ -858,7 +858,7 @@ PrefabInstance:
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
@@ -1121,7 +1121,7 @@ PrefabInstance:
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
@@ -1399,7 +1399,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Fruit: 0 '
+  m_Text: 'Boost Pumpkins: 0 '
 --- !u!222 &601236930
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2450,7 +2450,7 @@ PrefabInstance:
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
@@ -2769,7 +2769,7 @@ PrefabInstance:
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
@@ -3303,7 +3303,7 @@ PrefabInstance:
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
@@ -3421,7 +3421,7 @@ PrefabInstance:
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
@@ -3936,7 +3936,7 @@ PrefabInstance:
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 259573955117353692, guid: f61d40cd2cde64964bcb571529421b13,
         type: 3}
@@ -4183,7 +4183,7 @@ PrefabInstance:
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
@@ -4350,8 +4350,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5649473201960121727, guid: f61d40cd2cde64964bcb571529421b13, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f61d40cd2cde64964bcb571529421b13, type: 3}
 --- !u!1001 &538767122099078690
 PrefabInstance:
@@ -4974,7 +4973,7 @@ PrefabInstance:
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7824108912478917493, guid: bafdbd81d2dab4c27970293557c0ba9c,
         type: 3}
